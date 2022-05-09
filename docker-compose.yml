@@ -2,7 +2,7 @@ version: "3"
 services:
   php:
     build: .docker/php
-    container_name: "apache-srv"
+    # container_name: "apache-srv"
     image: server-apache
     volumes:
       - .docker/apache/server.pem:/etc/ssl/certs/server.pem
@@ -10,7 +10,7 @@ services:
       - .docker/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./src:/var/www/html
     ports:
-      - 8090:80
+      - ${APP_PORT}:80
     #      - 443:443
     restart: always
     networks:
@@ -18,29 +18,30 @@ services:
 
   mysql:
     image: mysql:5.7.26
-    container_name: "mysql-srv"
+    # container_name: "mysql-srv"
     volumes:
       - .docker/db:/var/lib/mysql
     ports:
-      - 3356:3306
+      - ${MYSQL_PORT}:3306
     environment:
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     restart: always
     networks:
       - mynetwork
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: "phpmyadmin-srv"
+    # container_name: "phpmyadmin-srv"
     ports:
-      - 8092:80
+      - ${PMA_PORT}:80
     environment:
       - PMA_ARBITRARY=1
       - PMA_HOST=mysql
-      - PMA_USER=root
-      - PMA_PASSWORD=root
+      - PMA_USER=${MYSQL_USER}
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
     links:
       - mysql
     restart: always
