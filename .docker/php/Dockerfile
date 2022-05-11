@@ -1,4 +1,4 @@
-FROM php:7.3.7-apache
+FROM php:7.4-apache
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   autoconf \
@@ -20,12 +20,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   freetds-bin \
   tdsodbc
 
-RUN docker-php-ext-configure gd \
-  --with-png-dir=/usr/include/ \
-  --with-jpeg-dir=/usr/include/ \
-  --with-freetype-dir=/usr/include/
+# RUN docker-php-ext-configure gd \
+#   --with-png-dir=/usr/include/ \
+#   --with-jpeg-dir=/usr/include/ \
+#   --with-freetype-dir=/usr/include/
 
-RUN docker-php-ext-configure zip --with-libzip
+# RUN docker-php-ext-configure zip --with-libzip
 
 RUN docker-php-ext-configure pdo_dblib --with-libdir=/lib/x86_64-linux-gnu
 
@@ -39,7 +39,10 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 RUN docker-php-ext-enable imagick pdo_dblib
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
+
+RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 #upload
 RUN echo "file_uploads = On\n" \

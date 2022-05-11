@@ -22,15 +22,21 @@ Simple and basic LAMP Docker environment.
 ~/repo $ cd docker-lamp
 ```
 
-4. Start the container with the following command:
+4. Copy .env.example to .env file:
+
+```bash
+~/repo $ cp .env.example .env
+```
+
+5. Start the container with the following command:
 
 ```bash
 ~/repo/docker-lamp $ sudo docker-compose up -d
 ```
 
-5. Access the project in http://localhost:APP_PORT
+6. Access the project in http://localhost:APP_PORT
 
-6. Put the PHP project files in the src folder:
+7. Put the PHP project files in the src folder:
    - /repo <br>
      -- /docker-lamp <br>
      --- /.docker (config files) <br>
