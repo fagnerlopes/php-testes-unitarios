@@ -1,4 +1,4 @@
-# Docker LAMP
+# PHPUnit
 
 Simple and basic LAMP Docker environment.
 
